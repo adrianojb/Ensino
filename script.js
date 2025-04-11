@@ -5,16 +5,16 @@ const optionsContainer = document.getElementById('options-container');
 const feedback = document.getElementById('feedback');
 const nextButton = document.getElementById('next-button');
 
-// Simple alphabet - using uppercase letters for clarity
+
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
 let currentLetter = '';
 let correctAnswers = 0;
 let totalAttempts = 0;
-const numberOfOptions = 4; // How many choices to display
+const numberOfOptions = 4; 
 
 function getRandomLetter(excludeArray = []) {
     let availableLetters = alphabet.filter(letter => !excludeArray.includes(letter));
-    if (availableLetters.length === 0) return null; // Should not happen with enough letters
+    if (availableLetters.length === 0) return null; 
     const randomIndex = Math.floor(Math.random() * availableLetters.length);
     return availableLetters[randomIndex];
 }
@@ -31,9 +31,9 @@ function displayNewLetter() {
 
     letterDisplay.textContent = currentLetter;
     feedback.textContent = '';
-    nextButton.style.display = 'none'; // Hide until answer is given
+    nextButton.style.display = 'none'; 
 
-    // Prepare options
+    
     let options = [currentLetter];
     let excluded = [currentLetter];
     while (options.length < numberOfOptions) {
@@ -42,16 +42,16 @@ function displayNewLetter() {
             options.push(randomOption);
             excluded.push(randomOption);
         } else {
-            // Fallback if not enough unique letters (unlikely with full alphabet)
+            
             break;
         }
     }
 
-    // Shuffle options
+   
     options.sort(() => Math.random() - 0.5);
 
-    // Create buttons
-    optionsContainer.innerHTML = ''; // Clear previous options
+   
+    optionsContainer.innerHTML = ''; 
     options.forEach(option => {
         const button = document.createElement('button');
         button.textContent = option;
@@ -66,7 +66,7 @@ function handleAnswer(event) {
     const selectedLetter = selectedButton.textContent;
     totalAttempts++;
 
-    // Disable all buttons after selection
+    
     const buttons = optionsContainer.querySelectorAll('.option-button');
     buttons.forEach(button => button.disabled = true);
 
@@ -75,7 +75,7 @@ function handleAnswer(event) {
         feedback.textContent = 'Correto! 🎉';
         feedback.style.color = '#28a745';
         correctAnswers++;
-        // Launch confetti!
+        
         confetti({
             particleCount: 100,
             spread: 70,
@@ -85,20 +85,19 @@ function handleAnswer(event) {
         selectedButton.classList.add('incorrect');
         feedback.textContent = `Incorreto. A letra era ${currentLetter}.`;
         feedback.style.color = '#dc3545';
-        // Highlight the correct one
+        
         buttons.forEach(button => {
             if (button.textContent === currentLetter) {
-                button.classList.add('correct'); // Show the right answer
+                button.classList.add('correct'); 
             }
         });
     }
 
-    nextButton.style.display = 'inline-block'; // Show next button
-}
+    nextButton.style.display = 'inline-block'; 
 
-// Event listener for the next button
+
 nextButton.addEventListener('click', displayNewLetter);
 
-// Initial setup
+
 displayNewLetter();
 
